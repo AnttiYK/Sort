@@ -7,14 +7,16 @@
 void printArr(int* arr, int size){
     for(int i = 0; i < size; i++){
         printf("%d, ", arr[i]);
-        if(i != 0 && (i + 1) % 10 == 0) printf("\n");
+        if(i != 0 && (i + 1) % (size / 10) == 0) printf("\n");
     }
 }
 
 int main(int argc, char const *argv[])
 {
-    int size = 100;
+    int size = 1000;
     int arr[size];
+    clock_t start, end;
+    double time;
     char input[100];
     int isRunning = 1;
     for(int i = 0; i < size; i++){
@@ -31,15 +33,23 @@ int main(int argc, char const *argv[])
                 
                 break;
 
+            case'I':
+                start = clock();
+                insertionSort(arr, size);
+                end = clock();
+                time = (double)(end - start) / CLOCKS_PER_SEC;
+                printf("\nInsertion sort execution time: %f\n", time);
+                break;
+
             case'P':
                 printArr(arr, size);
                 break;
             
             case'S':
-                clock_t start = clock();
+                start = clock();
                 shellSort(arr, size);
-                clock_t end = clock();
-                double time = (double)(end - start) / CLOCKS_PER_SEC;
+                end = clock();
+                time = (double)(end - start) / CLOCKS_PER_SEC;
                 printf("\nShellsort execution time: %f\n", time);
                 break;
 
@@ -49,7 +59,7 @@ int main(int argc, char const *argv[])
                 break;
 
             default:
-                printf("\nA : reshuffles array\nP : print array\nS : shell sort\nQ : quit\n");
+                printf("\nA : reshuffles array\nP : print array\nI : insertion sort\nS : shell sort\nQ : quit\n");
         }
     }
 
